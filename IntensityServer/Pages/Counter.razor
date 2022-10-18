@@ -1,0 +1,45 @@
+﻿@page "/addplayer"
+@using Microsoft.Extensions.Configuration
+@using DataAccess
+@using IntensityServer.Models
+@using IntensityServer.Data
+@inject IDataAccess _data
+@inject IConfiguration _config
+
+<PageTitle>Add Players</PageTitle>
+
+<h1>Add Players</h1>
+<div class="card-body">
+    <EditForm Model="@player" OnValidSubmit="@HandleValidSubmit">
+        <p>
+    <div class="form-group">
+        <label>Name:</label>
+        <InputText id="name" type="text" @bind-Value="player.FirstName" class="form-control">Name</InputText>
+    </div>
+    <div class="form-group">
+        <label>Surname:</label>
+        <InputText id="surname" type="text" @bind-Value="player.Surname" class="form-control">Surname</InputText>
+    </div>
+        </p>
+    <div class="form-group">
+          <button class="btn btn-primary" >Add Player</button>
+          <NavLink href="/" class="btn btn-secondary">Home</NavLink>
+    </div>       
+    </EditForm>
+</div>
+
+
+
+
+@code {
+    private PlayerData playerdata;
+    private Player player = new Player();
+
+    private async void HandleValidSubmit()
+    {
+        playerdata = new PlayerData(player, _data, _config);
+        await playerdata.UploadPlayer();
+        player.FirstName = "";
+        player.Surname = "";
+    }
+}

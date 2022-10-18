@@ -1,0 +1,10 @@
+C:\Users\malie\source\repos\IntensityServer\DataAccess\bin\Debug\netstandard2.0\DataAccess.deps.json
+C:\Users\malie\source\repos\IntensityServer\DataAccess\bin\Debug\netstandard2.0\DataAccess.dll
+C:\Users\malie\source\repos\IntensityServer\DataAccess\bin\Debug\netstandard2.0\DataAccess.pdb
+C:\Users\malie\source\repos\IntensityServer\DataAccess\obj\Debug\netstandard2.0\DataAccess.csproj.AssemblyReference.cache
+C:\Users\malie\source\repos\IntensityServer\DataAccess\obj\Debug\netstandard2.0\DataAccess.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\malie\source\repos\IntensityServer\DataAccess\obj\Debug\netstandard2.0\DataAccess.AssemblyInfoInputs.cache
+C:\Users\malie\source\repos\IntensityServer\DataAccess\obj\Debug\netstandard2.0\DataAccess.AssemblyInfo.cs
+C:\Users\malie\source\repos\IntensityServer\DataAccess\obj\Debug\netstandard2.0\DataAccess.csproj.CoreCompileInputs.cache
+C:\Users\malie\source\repos\IntensityServer\DataAccess\obj\Debug\netstandard2.0\DataAccess.dll
+C:\Users\malie\source\repos\IntensityServer\DataAccess\obj\Debug\netstandard2.0\DataAccess.pdb

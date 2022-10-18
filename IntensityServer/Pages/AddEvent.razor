@@ -1,0 +1,113 @@
+﻿@page "/addevent"
+@using Microsoft.Extensions.Configuration
+@using DataAccess
+@using IntensityServer.Models
+@using IntensityServer.Data
+@inject IDataAccess _data
+@inject IConfiguration _config
+<h3>Add Players Event Scores</h3>
+<div class="row mt-4">
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Event 1 (sec)</th>
+                <th>Event 2 (sec)</th>
+                <th>Event 3 (sec)</th>
+                <th>Event 4 (sec)</th>
+                <th>Submit</th>
+            </tr>
+        </thead>
+        <tbody>
+
+@if (fulltable == null)
+{
+<p><em>Loading...</em></p>
+}
+else
+{
+@foreach (var row in fulltable.rows)
+{
+                    Player localplayer = row.player;
+                    <tr>
+        <td>@row.player.FirstName.Substring(0,1) @row.player.Surname</td>
+             <td><input @bind="@row.eSeconds1" placeholder="@row.eSeconds1"></td>
+             <td><input @bind="@row.eSeconds2" placeholder="@row.eSeconds2"></td>
+             <td><input @bind="@row.eSeconds3" placeholder="@row.eSeconds3"></td>
+             <td><input @bind="@row.eSeconds4" placeholder="@row.eSeconds4"></td>
+        <td>
+            <div>
+
+ <button @onclick="@(() => SaveRow(localplayer))" class="btn btn-primary">Save @row.player.FirstName.Substring(0,1), @row.player.Surname</button>
+            </div>
+        </td>
+    </tr>    
+}
+}
+        </tbody>
+    </table>
+</div>
+
+@code {
+   
+    private List<Player> players;
+    private PlayerData _playerdata;
+    private EventData _eventdata;
+    private List<Event> events;
+    private FullEventTable fulltable; 
+    protected override async Task OnInitializedAsync()
+    {
+        _eventdata = new EventData(_data, _config);
+        _playerdata = new PlayerData(_data, _config);
+        players = await _playerdata.DowloadPlayers();
+        events = await _eventdata.DownLoadEvents();
+        if(events == null)
+        {
+            events = new List<Event>();
+            foreach (Player play in players)
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    events.Add(new Event()
+                        {
+                            UserId = play.PlayerId,
+                            EventId = i + 1,
+                            Seconds = 0,
+                        });
+                    int eid = i + 1;
+                    await _eventdata.UploadEvent(play.PlayerId.ToString(), "0", eid.ToString());
+                }
+            }
+        }
+        await Task.Run(() => fulltable = new FullEventTable(players, events, _data, _config));
+    }
+    protected void SaveRow (Player plaiya)
+    {
+        foreach (var row in fulltable.rows.Where(c => c.player.PlayerId == plaiya.PlayerId))
+        {
+            Event eventy = new Event() {
+            EventId = 1,
+            Seconds = row.eSeconds1
+            };
+            _eventdata.UpdateData(row.player.PlayerId.ToString(), "1", row.eSeconds1.ToString());
+            eventy = new Event()
+                {
+                    EventId = 2,
+                    Seconds = row.eSeconds2
+                };
+            _eventdata.UpdateData(row.player.PlayerId.ToString(), "2", row.eSeconds2.ToString());
+            eventy = new Event()
+                {
+                    EventId = 3,
+                    Seconds = row.eSeconds3
+                };
+            _eventdata.UpdateData(row.player.PlayerId.ToString(), "3", row.eSeconds3.ToString());
+            eventy = new Event()
+                {
+                    EventId = 4,
+                    Seconds = row.eSeconds4
+                };
+            _eventdata.UpdateData(row.player.PlayerId.ToString(), "4", row.eSeconds4.ToString());
+        }
+    }
+}

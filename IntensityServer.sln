@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntensityServer", "IntensityServer\IntensityServer.csproj", "{309690F4-CF28-4D9B-90AB-5F57FC7BE66F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{E25B4FDB-62C1-4000-9543-5C99C9753B2D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{309690F4-CF28-4D9B-90AB-5F57FC7BE66F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{309690F4-CF28-4D9B-90AB-5F57FC7BE66F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{309690F4-CF28-4D9B-90AB-5F57FC7BE66F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{309690F4-CF28-4D9B-90AB-5F57FC7BE66F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E25B4FDB-62C1-4000-9543-5C99C9753B2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E25B4FDB-62C1-4000-9543-5C99C9753B2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E25B4FDB-62C1-4000-9543-5C99C9753B2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E25B4FDB-62C1-4000-9543-5C99C9753B2D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F4196C3D-8BBF-4309-BD00-F5AB9B2B826A}
+	EndGlobalSection
+EndGlobal
