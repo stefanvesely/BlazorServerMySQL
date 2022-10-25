@@ -3,8 +3,10 @@
 @using DataAccess
 @using IntensityServer.Models
 @using IntensityServer.Data
+@inject IJSRuntime _runtime
 @inject IDataAccess _data
 @inject IConfiguration _config
+
 
 <PageTitle>Add Players</PageTitle>
 
@@ -41,5 +43,6 @@
         await playerdata.UploadPlayer();
         player.FirstName = "";
         player.Surname = "";
+        await _runtime.InvokeVoidAsync("alert", "They are alive!");
     }
 }

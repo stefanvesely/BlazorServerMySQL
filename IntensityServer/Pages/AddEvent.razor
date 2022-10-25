@@ -3,11 +3,14 @@
 @using DataAccess
 @using IntensityServer.Models
 @using IntensityServer.Data
+@inject NavigationManager uriHelper;
 @inject IDataAccess _data
 @inject IConfiguration _config
-<h3>Add Players Event Scores</h3>
+@inject IJSRuntime _JSruntime
+
+<h3>Add Players Event Seconds</h3>
 <div class="row mt-4">
-    <table class="table table-bordered table-hover">
+    <table class="table table-bordered table-hover table-striped table-sm table-responsive">
         <thead>
             <tr>
                 <th>Name</th>
@@ -23,7 +26,7 @@
 
 @if (fulltable == null)
 {
-<p><em>Loading...</em></p>
+    <p><em>Loading...</em></p>
 }
 else
 {
@@ -43,7 +46,7 @@ else
         </td>
         <td>
               <div>
-                   <button @onclick="@(() => RemovePlayer(localplayer))" class="btn btn-danger">Delete</button>
+                                <button @onclick="@(() => RemovePlayer(localplayer))" class="btn btn-delete">Delete</button>
               </div>
         </td>
     </tr>        
@@ -114,10 +117,15 @@ else
                 };
             _eventdata.UpdateData(row.player.PlayerId.ToString(), "4", row.eSeconds4.ToString());
         }
+        _JSruntime.InvokeVoidAsync("alert", "Saved!");
     }
-    protected void RemovePlayer(Player plaiya)
+    protected async void RemovePlayer(Player plaiya)
     {
-        fulltable.RemovePlayer(plaiya);
-        _playerdata.RemovePlayer(plaiya.PlayerId);
+        if (await _JSruntime.InvokeAsync<bool>("confirm", "Are you sure you want to kill this player?"))
+        {
+            await Task.Run(() => fulltable.RemovePlayer(plaiya));
+            await _playerdata.RemovePlayer(plaiya.PlayerId);
+            uriHelper.NavigateTo(uriHelper.Uri, forceLoad: true);
+        }
     }
 }

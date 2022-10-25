@@ -1,5 +1,6 @@
 ﻿using DataAccess;
 using IntensityServer.Data;
+using System.Security.Cryptography.X509Certificates;
 
 namespace IntensityServer.Models
 {
@@ -103,7 +104,7 @@ namespace IntensityServer.Models
 
         }
 
-        public async Task<FullEventTable> UpdateScores()
+        public FullEventTable UpdateScores()
         {
             List<EventPlayerSecondsClass> event1 = new List<EventPlayerSecondsClass>();
             List<EventPlayerSecondsClass> event2 = new List<EventPlayerSecondsClass>();
@@ -148,10 +149,10 @@ namespace IntensityServer.Models
                     });
                 }
             }
-            event1.OrderBy(c => c.seconds);
-            event2.OrderBy(c => c.seconds);
-            event3.OrderBy(c => c.seconds);
-            event4.OrderBy(c => c.seconds);
+            event1 = event1.OrderBy(c => c.seconds).ToList();
+            event2 = event2.OrderBy(c => c.seconds).ToList();
+            event3 = event3.OrderBy(c => c.seconds).ToList();
+            event4 = event4.OrderBy(c => c.seconds).ToList();
             int icount = 1;
             foreach (EventPlayerSecondsClass epv in event1)
             {
@@ -207,6 +208,7 @@ namespace IntensityServer.Models
                 }
             }
             FullEventTable fet = new FullEventTable(ftrcret);
+            fet.fullTableRowClasses = fet.fullTableRowClasses.OrderBy(c => c.eScore).ToList();
             return fet; 
         }
     }
@@ -228,5 +230,10 @@ namespace IntensityServer.Models
         public int eSeconds4;
         public int eScore;
 
+        public string ConvertToMinutes (int seconds)
+        {
+            TimeSpan t = TimeSpan.FromSeconds(seconds);
+            return t.Hours+"h:"+t.Minutes +"m:" + t.Seconds+"s";
+        }
     }
 }

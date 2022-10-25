@@ -5,10 +5,44 @@
 @using IntensityServer.Data
 @inject IDataAccess _data
 @inject IConfiguration _config
+
 <PageTitle>Main Page</PageTitle>
 
 <h1>Workout Table</h1>
+<table class="table table-bordered table-hover table-striped table-sm table-responsive">
+    <thead class="fw-bold">
+        <tr>
+            <th>Player</th>
+            <th>Event One</th>
+            <th>Event Two</th>
+            <th>Event Three</th>
+            <th>Event Four</th>
+            <th><label value=@scores>@scores</label></th>
+        </tr>
+    </thead>
+    <tbody>
 
+        @if (finalizedTable == null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else
+        {
+            @foreach (var row in finalizedTable.rows)
+            {
+                Player localplayer = row.player;
+                <tr>
+                    <td>@row.player.FirstName.Substring(0,1) @row.player.Surname</td>
+                    <td>@row.ConvertToMinutes(row.eSeconds1)</td>
+                    <td>@row.ConvertToMinutes(row.eSeconds2)</td>
+                    <td>@row.ConvertToMinutes(row.eSeconds3)</td>
+                    <td>@row.ConvertToMinutes(row.eSeconds4)</td>
+                    <td>@row.eScore</td>                   
+                </tr>
+            }
+        }
+    </tbody>
+</table>
 
 @code {
     private List<Player> players;
@@ -16,6 +50,8 @@
     private EventData _eventdata;
     private List<Event> events;
     private FullEventTable fulltable;
+    private FullEventTable finalizedTable;
+    private string scores = "Scores";
     protected override async Task OnInitializedAsync()
     {
         _eventdata = new EventData(_data, _config);
@@ -41,6 +77,12 @@
             }
         }
         await Task.Run(() => fulltable = new FullEventTable(players, events, _data, _config));
+        await Task.Run(() => finalizedTable = fulltable.UpdateScores());
+        if (finalizedTable.rows.Count == 1)
+        {
+            scores = "Score";
+        }
+
     }
 }
 
