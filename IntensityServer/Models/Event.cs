@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure;
-
-namespace IntensityServer.Models
+﻿namespace IntensityServer.Models
 {
     public class Event
     {

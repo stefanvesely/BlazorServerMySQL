@@ -1,9 +1,46 @@
 ﻿@page "/"
-
+@using Microsoft.Extensions.Configuration
+@using DataAccess
+@using IntensityServer.Models
+@using IntensityServer.Data
+@inject IDataAccess _data
+@inject IConfiguration _config
 <PageTitle>Main Page</PageTitle>
 
 <h1>Workout Table</h1>
 
 
-
+@code {
+    private List<Player> players;
+    private PlayerData _playerdata;
+    private EventData _eventdata;
+    private List<Event> events;
+    private FullEventTable fulltable;
+    protected override async Task OnInitializedAsync()
+    {
+        _eventdata = new EventData(_data, _config);
+        _playerdata = new PlayerData(_data, _config);
+        players = await _playerdata.DowloadPlayers();
+        events = await _eventdata.DownLoadEvents();
+        if (events == null)
+        {
+            events = new List<Event>();
+            foreach (Player play in players)
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    events.Add(new Event()
+                        {
+                            UserId = play.PlayerId,
+                            EventId = i + 1,
+                            Seconds = 0,
+                        });
+                    int eid = i + 1;
+                    await _eventdata.UploadEvent(play.PlayerId.ToString(), "0", eid.ToString());
+                }
+            }
+        }
+        await Task.Run(() => fulltable = new FullEventTable(players, events, _data, _config));
+    }
+}
 

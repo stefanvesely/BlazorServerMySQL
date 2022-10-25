@@ -15,7 +15,8 @@
                 <th>Event 2 (sec)</th>
                 <th>Event 3 (sec)</th>
                 <th>Event 4 (sec)</th>
-                <th>Submit</th>
+                <th>Submit Scores</th>
+                <th>Remove Player</th>
             </tr>
         </thead>
         <tbody>
@@ -37,11 +38,15 @@ else
              <td><input @bind="@row.eSeconds4" placeholder="@row.eSeconds4"></td>
         <td>
             <div>
-
- <button @onclick="@(() => SaveRow(localplayer))" class="btn btn-primary">Save @row.player.FirstName.Substring(0,1), @row.player.Surname</button>
+                <button @onclick="@(() => SaveRow(localplayer))" class="btn btn-primary">Save</button>
             </div>
         </td>
-    </tr>    
+        <td>
+              <div>
+                   <button @onclick="@(() => RemovePlayer(localplayer))" class="btn btn-danger">Delete</button>
+              </div>
+        </td>
+    </tr>        
 }
 }
         </tbody>
@@ -49,7 +54,7 @@ else
 </div>
 
 @code {
-   
+
     private List<Player> players;
     private PlayerData _playerdata;
     private EventData _eventdata;
@@ -109,5 +114,10 @@ else
                 };
             _eventdata.UpdateData(row.player.PlayerId.ToString(), "4", row.eSeconds4.ToString());
         }
+    }
+    protected void RemovePlayer(Player plaiya)
+    {
+        fulltable.RemovePlayer(plaiya);
+        _playerdata.RemovePlayer(plaiya.PlayerId);
     }
 }

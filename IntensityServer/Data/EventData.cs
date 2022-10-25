@@ -1,6 +1,5 @@
 ﻿using DataAccess;
 using IntensityServer.Models;
-using System.Diagnostics.Eventing.Reader;
 
 namespace IntensityServer.Data
 {
@@ -14,9 +13,9 @@ namespace IntensityServer.Data
         {
             _event = eventy;
             _data = data;
-            _config = configuration;  
+            _config = configuration;
         }
-        public EventData( IDataAccess data, IConfiguration configuration)
+        public EventData(IDataAccess data, IConfiguration configuration)
         {
             _event = new Event();
             _data = data;
@@ -26,7 +25,7 @@ namespace IntensityServer.Data
         public async Task UploadEvent(string userid, string seconds, string eventid)
         {
             string sql = "insert into eventstable (EventId, UserId, Seconds) values (@EventId, @UserId, @Seconds);";
-            await _data.SaveData(sql, new {EventId = eventid, UserId = userid, Seconds = seconds}, _config.GetConnectionString("default"));
+            await _data.SaveData(sql, new { EventId = eventid, UserId = userid, Seconds = seconds }, _config.GetConnectionString("default"));
 
         }
 
@@ -42,7 +41,7 @@ namespace IntensityServer.Data
 
             await _data.SaveData(sql, new { Seconds = updatedsecs, EventId = eventid, UserId = userid }, _config.GetConnectionString("default"));
 
-            
+
         }
     }
 }
